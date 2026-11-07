@@ -1,0 +1,389 @@
+<!doctype html>
+<html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Метод активации</title>
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@600&family=Inter:wght@400;600;700&family=Montserrat:wght@500&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#1c0709;--cream:#ece3d6;--bordo:#6c1520;--dk:#5e111b;--ink:#3b1d20}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--bg)}
+body{font-family:Inter,sans-serif;font-size:17px;line-height:1.45;-webkit-font-smoothing:antialiased}
+.page{max-width:640px;margin:0 auto;overflow:hidden;background:var(--bg)}
+.poster{position:relative;aspect-ratio:4/5;background:center 30%/cover no-repeat;overflow:hidden}
+.poster:before{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(28,7,9,.82),rgba(28,7,9,0) 58%),linear-gradient(0deg,rgba(28,7,9,.55),rgba(28,7,9,0) 22%)}
+.poster .vw{position:absolute;left:-4px;bottom:0;transform-origin:left bottom;transform:rotate(-90deg) translateY(100%);font-family:Oswald;font-weight:600;font-size:150px;line-height:.82;color:var(--cream);letter-spacing:-2px;white-space:nowrap}
+.poster .lab{position:absolute;left:22px;top:24px;font-family:Montserrat,Inter,sans-serif;font-weight:500;font-size:12px;letter-spacing:3px;color:var(--cream);line-height:1.6}
+.poster .bar{width:130px;height:11px;border:2px solid var(--cream);margin-top:8px;position:relative}.poster .bar:after{content:"";position:absolute;left:0;top:0;bottom:0;width:88%;background:var(--cream)}
+.poster .cap{position:absolute;right:20px;bottom:24px;text-align:right;color:var(--cream);font-family:Montserrat,Inter,sans-serif;font-size:17px;line-height:1.35}
+.w{padding:6px 0 10px}
+.card{background:var(--cream);color:var(--ink);border-radius:18px;margin:14px 12px;padding:26px 20px 12px}
+.card.dark{background:var(--dk);color:var(--cream)}
+p{margin:0 0 13px}
+b{font-weight:600;color:inherit}
+h1,h2{font-family:Oswald,Impact,sans-serif;font-weight:600;text-transform:uppercase;color:var(--bordo);letter-spacing:.2px;margin:0 0 18px;padding-bottom:12px;border-bottom:1px solid rgba(108,21,32,.35)}
+h1{font-size:32px;line-height:1.08}
+h2{font-size:26px;line-height:1.1}
+.dark h1,.dark h2{color:var(--cream);border-color:rgba(255,255,255,.25)}
+h3{font-size:18px;line-height:1.35;font-weight:700;margin:28px 0 12px}
+h3 .n{display:inline-block;background:var(--bordo);color:var(--cream);font-family:Oswald;font-size:15px;font-weight:600;padding:1px 8px;border-radius:4px;margin-right:10px;vertical-align:2px}
+.dark h3 .n{background:var(--cream);color:var(--bordo)}
+.lst{margin:0 0 18px;counter-reset:l}
+.lst div{padding:7px 0 7px 40px;border-bottom:1px solid rgba(108,21,32,.22);position:relative}
+.lst div:before{counter-increment:l;content:"0" counter(l);position:absolute;left:0;top:11px;background:var(--bordo);color:var(--cream);font-family:Oswald;font-size:13px;line-height:1;padding:4px 6px;border-radius:4px}
+.dark .lst div{border-color:rgba(255,255,255,.2)}.dark .lst div:before{background:var(--cream);color:var(--bordo)}
+.chat{display:flex;flex-direction:column;gap:10px;margin:6px 0 22px}
+.bub{background:#e0d4c3;border-radius:20px 20px 20px 6px;padding:12px 16px;max-width:90%}
+.bub:nth-child(even){align-self:flex-end;border-radius:20px 20px 6px 20px}
+.dark .bub{background:#741a26}
+.stats{display:flex;gap:10px;margin:8px 0 20px}
+.st{flex:1;background:var(--cream);color:var(--ink);border-radius:14px;padding:18px 16px}
+.card:not(.dark) .st{background:var(--bordo);color:var(--cream)}
+.st .n{font-family:Oswald;font-weight:600;font-size:36px;line-height:1;color:var(--bordo)}
+.card:not(.dark) .st .n{color:var(--cream)}
+.st p{margin:8px 0 0;font-size:15px;line-height:1.4}
+.plq,.res{background:var(--bordo);color:var(--cream);border-radius:14px;padding:16px 18px;margin:8px 0 20px}
+.dark .plq,.dark .res{background:var(--cream);color:var(--ink)}
+.plq p:last-child,.res p:last-child{margin:0}
+.chain{margin:8px 0 22px;text-align:center}
+.chain div{background:var(--bordo);color:var(--cream);border-radius:12px;padding:11px 14px;font-weight:600}
+.dark .chain div{background:var(--cream);color:var(--ink)}
+.chain i{display:block;font-style:normal;font-size:20px;line-height:26px}
+figure{margin:20px 0 24px}
+figure img{display:block;width:100%;height:auto;border-radius:12px}
+.pair{display:flex;gap:10px;align-items:flex-start}.pair img{width:50%;min-width:0}
+.tri{display:flex;gap:8px}.tri img{width:33.33%;min-width:0;object-fit:cover;aspect-ratio:3/4;border-radius:10px}
+.narrow img{width:76%;margin:0 auto}
+.stack img+img{margin-top:8px}
+.no,.yes{margin:0 0 18px}
+.no div,.yes div{display:flex;gap:12px;padding:8px 0;border-bottom:1px solid rgba(108,21,32,.22)}
+.dark .no div,.dark .yes div{border-color:rgba(255,255,255,.2)}
+.no i,.yes i{font-style:normal;font-weight:700;min-width:16px}
+.cta{display:block;background:var(--bordo);color:var(--cream);text-decoration:none;text-align:center;font-family:Oswald;font-weight:600;font-size:24px;letter-spacing:1.5px;border-radius:40px;padding:16px;margin:20px 0}
+.dark .cta{background:var(--cream);color:var(--bordo)}
+
+.hl{background:rgba(108,21,32,.13);color:var(--bordo);font-weight:600;padding:1px 5px;border-radius:5px;-webkit-box-decoration-break:clone;box-decoration-break:clone}
+.dark .hl{background:rgba(236,227,214,.16);color:#fff3e6}
+.note{background:rgba(108,21,32,.07);border-left:3px solid var(--bordo);border-radius:4px 12px 12px 4px;padding:14px 16px 2px;margin:6px 0 20px}
+.dark .note{background:rgba(236,227,214,.08);border-left-color:var(--cream)}
+.lbl{font-family:Oswald;font-weight:600;font-size:13px;letter-spacing:2px;text-transform:uppercase;color:var(--bordo);margin-bottom:6px}
+.dark .lbl{color:#f0c9b8}
+.story{border:1.5px solid rgba(108,21,32,.35);border-radius:16px;padding:16px 16px 4px;margin:8px 0 22px;background:rgba(255,255,255,.35)}
+.dark .story{border-color:rgba(236,227,214,.3);background:rgba(0,0,0,.12)}
+.story .plq{margin-bottom:16px}
+.res2{background:var(--bordo);color:var(--cream);border-radius:14px;padding:14px 16px 2px;margin:6px 0 20px}
+.res2 .lbl{color:#f0c9b8}
+.dark .res2{background:var(--cream);color:var(--ink)}.dark .res2 .lbl{color:var(--bordo)}
+.duo{display:flex;gap:10px;margin:6px 0 20px}.duo div{flex:1;background:var(--bordo);color:var(--cream);border-radius:14px;padding:14px;font-weight:600}
+.dark .duo div{background:var(--cream);color:var(--ink)}
+.ba{display:flex;gap:10px}.ba div{flex:1;position:relative;min-width:0}.ba img{width:100%;aspect-ratio:3/4.4;object-fit:cover;border-radius:12px}.ba span{position:absolute;left:8px;top:8px;background:var(--bordo);color:var(--cream);font-family:Oswald;font-weight:600;font-size:14px;letter-spacing:2px;padding:3px 10px;border-radius:20px}.dark .ba span{background:var(--cream);color:var(--bordo)}
+.circles{display:flex;justify-content:center;margin:18px 0 26px}
+.vc{position:relative;width:62%;aspect-ratio:1;border-radius:50%;overflow:hidden;border:3px solid var(--cream);background:#2a0d10;box-shadow:0 8px 24px rgba(0,0,0,.35)}
+.card:not(.dark) .vc{border-color:var(--bordo)}
+.vc video{position:absolute;inset:-4%;width:108%;height:108%;object-fit:cover;display:block}
+.vc .pl{position:absolute;inset:0;width:100%;height:100%;border:0;background:transparent;cursor:pointer;padding:0}
+.vc .pl::before{content:"";position:absolute;left:50%;top:50%;width:62px;height:62px;margin:-31px 0 0 -31px;border-radius:50%;background:rgba(28,7,9,.6)}
+.vc .pl::after{content:"";position:absolute;left:50%;top:50%;margin:-13px 0 0 -7px;border-style:solid;border-width:13px 0 13px 22px;border-color:transparent transparent transparent var(--cream)}
+.vc.on .pl::before,.vc.on .pl::after{opacity:0}
+.prog i{display:block;text-align:center;font-style:normal;font-size:24px;line-height:34px}
+.lst.neg div{padding-left:34px}
+.lst.neg div span,.lst.neg div{color:rgba(59,29,32,.5);text-decoration:line-through;text-decoration-color:rgba(108,21,32,.45)}
+.lst.neg div:before{content:"✕";background:none;color:rgba(108,21,32,.55);font-family:Inter;font-weight:700;font-size:16px;padding:0;top:9px;text-decoration:none}
+.no span{color:rgba(59,29,32,.5);text-decoration:line-through;text-decoration-color:rgba(108,21,32,.45)}
+.no i{opacity:.55}
+.dark .no span{color:rgba(236,227,214,.55);text-decoration-color:rgba(236,227,214,.4)}
+.voice{display:flex;align-items:center;gap:14px;background:var(--bordo);color:var(--cream);border-radius:20px;padding:14px 16px;margin:4px 0 24px}
+.dark .voice{background:var(--cream);color:var(--ink)}
+.vp{flex:none;width:52px;height:52px;border-radius:50%;border:0;background:var(--cream);position:relative;padding:0;cursor:pointer}
+.dark .vp{background:var(--bordo)}
+.vp::after{content:"";position:absolute;left:50%;top:50%;margin:-10px 0 0 -6px;border-style:solid;border-width:10px 0 10px 17px;border-color:transparent transparent transparent var(--bordo)}
+.dark .vp::after{border-left-color:var(--cream)}
+.voice.on .vp::after{border:0;width:5px;height:18px;margin:-9px 0 0 -8px;background:var(--bordo);box-shadow:10px 0 0 var(--bordo)}
+.dark .voice.on .vp::after{background:var(--cream);box-shadow:10px 0 0 var(--cream)}
+.vb{flex:1;min-width:0}.vn{font-weight:700;font-size:15px;margin-bottom:4px}
+.vw{display:flex;align-items:center;gap:2px;height:30px}.vw i{flex:1;background:currentColor;opacity:.35;border-radius:2px;min-height:3px}.vw i.p{opacity:1}
+.vt{font-size:13px;opacity:.75;margin-top:4px}
+.vtitle{font-family:Oswald;font-weight:600;font-size:22px;line-height:1.15;text-transform:uppercase;color:var(--bordo);margin:6px 0 12px}
+.dark .vtitle{color:var(--cream)}
+.vrect{display:flex;flex-direction:column;gap:10px;margin:0 0 24px}
+.vrect video{display:block;width:100%;height:auto;aspect-ratio:16/10;border-radius:12px;background:#111}
+#prog{position:fixed;left:0;top:0;height:4px;width:0;background:#e8b4a6;z-index:50;box-shadow:0 0 6px rgba(0,0,0,.4);transition:width .1s linear}
+</style></head>
+<body><div class="page"><div class="poster" style="background-image:url(img001.jpg)"><div class="lab">МЕТОД АКТИВАЦИИ<br>ЗАГРУЗКА… 92%<div class="bar"></div></div><div class="vw">АКТИВАЦИЯ</div><div class="cap">как достигать целей<br>в 10 раз быстрее</div></div><div class="w"><section class="card"><h1>Метод активации: как достигать целей в 10 раз быстрее за счёт работы с подсознанием</h1>
+
+<p><b>За счёт метода активации и работы с подсознанием вам больше не придётся:</b></p>
+<div class="lst neg">
+<div>работать в ноль и постоянно чувствовать, что ничего не получается</div>
+<div>винить себя за отсутствие результатов</div>
+<div>чувствовать себя недостаточно хорошей</div>
+<div>бесконечно пробовать новые способы, не понимая, почему они не работают</div>
+</div>
+
+<p><b>Вместо этого вы поймёте:</b></p>
+<div class="lst">
+<div>как именно вам расти в деньгах и аудитории</div>
+<div>как перестать возвращаться к одним и тем же результатам</div>
+<div>как принимать решения, которые действительно ведут вас к целям желаемой жизни</div>
+</div>
+
+<p style="margin-top:26px"><b>Наверняка, вы задавали себе эти вопросы:</b></p>
+<div class="chat">
+<div class="bub">Почему я столько учусь, прохожу курсы, а зарабатываю всё равно столько же?</div>
+<div class="bub">Почему я знаю, как вести блог, но откладываю рилсы, а те, что выкладываю, не залетают?</div>
+<div class="bub">Почему я хочу поднять чек, но каждый раз ставлю прежнюю цену, потому что страшно, что не купят?</div>
+<div class="bub">Почему я снова и снова выбираю мужчин, с которыми мне плохо, хотя заранее вижу, чем это закончится?</div>
+</div>
+
+</section><section class="card dark"><h2>Почему у других получается, а я делаю всё то же самое и стою на месте?</h2>
+<p>Потому что вашими решениями управляет <span class="hl">глубинная установка</span> — убеждение в подсознании, которое вы сами не видите. Именно она решает, сколько вы берёте за свою работу, выкладываете ли рилс и каких людей выбираете рядом с собой.</p>
+<div class="plq"><p>И пока вы её не найдёте, любые новые знания, практики и стратегии будут упираться в один и тот же потолок.</p></div>
+<p>Сегодня я расскажу про метод активации, который помог мне открыть продюсерский центр и работать с крупными блогерами.</p><p><b>Который помог мне изменить мою жизнь до и после:</b></p><figure class="ba"><div><img src="img002.jpg" alt=""><span>ДО</span></div><div><img src="img003.jpg" alt=""><span>ПОСЛЕ</span></div></figure>
+
+<p><b>Оборот моего продюсерского центра:</b></p>
+<div class="stats">
+<div class="st"><div class="n">120+ МЛН</div><p>за всё время работы мы помогли клиентам заработать столько</p></div>
+<div class="st"><div class="n">40+</div><p>проектов на стабильный ежемесячный доход</p></div>
+</div>
+
+<p>Например, полгода я ходила по кругу и не могла открыть продюсерский центр. А когда нашла одну установку и проработала её, открыла центр, и выручка выросла Х3. Что это была за установка, расскажу ниже.</p><p>Так я зарабатываю на любимом деле даже на маленьком блоге: делаю запуск на 1 млн рублей на охватах 200.</p>
+<figure><img src="img004.jpg" alt=""></figure>
+
+<p>Так я за месяц выросла на <b>+2000 подписчиков</b> с помощью работы с бессознательным. Так я объездила <b>полмира.</b></p>
+<figure class="prog"><img src="img005.jpg" alt=""><i>↓</i><img src="img006.jpg" alt=""></figure>
+<figure class="pair"><img src="img007.jpg" alt=""><img src="img008.jpg" alt=""></figure>
+
+<p>И так я научилась выбирать <b>здоровых мужчин и здоровые отношения.</b></p>
+<figure class="tri"><img src="img009.jpg" alt=""><img src="img010.jpg" alt=""><img src="img011.jpg" alt=""></figure><p>И так я <b>купила квартиру.</b></p><figure class="circles"><div class="vc"><video src="v1.mp4" poster="img012.jpg" playsinline preload="metadata"></video><button class="pl" type="button" aria-label="Смотреть видео"></button></div></figure>
+
+
+
+</section><section class="card"><h2>Что такое метод активации?</h2>
+<p>Его суть простая: мы не даём вам новые знания и не заставляем больше работать. Мы находим глубинную установку, которая держит вас в старом сценарии, убираем её и сразу закрепляем новую в действиях.</p>
+
+<div class="plq"><p>Так моя ученица Ксюша за месяц и четыре созвона вышла с 22 тысяч <b>на 150 тысяч и получила предложение на 200 тысяч плюс KPI</b></p></div>
+<figure class="narrow"><img src="img013.jpg" alt=""></figure>
+
+<div class="plq"><p>Так другая Ксюша, которой 3 года не одобряли ипотеку, <b>за месяц купила квартиру</b></p></div>
+<figure class="narrow"><img src="img014.jpg" alt=""></figure>
+
+<div class="plq"><p>Так фотограф Настя за полторы недели сделала <b>600 тысяч</b></p></div>
+<figure class="narrow stack"><img src="img015.jpg" alt=""><img src="img016.jpg" alt=""></figure>
+
+<p>Поэтому дальше мы разберём: что такое подсознание, почему цели и визуализации не работают, пока установка стоит на месте, и как метод активации убирает её за несколько созвонов, а не за месяцы разговоров. А в конце покажу, <b>за счёт чего именно практически каждая моя ученица за неделю–30 дней выросла в 10 раз.</b></p>
+
+</section></div><div class="poster" style="background-image:url(img017.jpg)"><div class="lab">ЧАСТЬ 1<br>ПОДСОЗНАНИЕ<div class="bar"></div></div><div class="vw">УСТАНОВКА</div></div><div class="w"><section class="card dark"><h2>Что такое подсознание и почему оно напрямую влияет на вашу жизнь?</h2>
+<p><b>Подсознание — это то, во что вы глубоко верите,</b> как вы привыкли реагировать и как привыкли поступать. Именно оно решает, что вы замечаете, какие решения принимаете и что делаете.</p>
+<div class="note"><div class="lbl">Пример</div><p>Например, сознательно вы хотите зарабатывать миллион, но внутри боитесь, что большие деньги лишат вас свободы или помешают построить отношения. Из-за этого вы можете бояться повышать цены, не замечать возможности для роста или откладывать важные решения, даже не понимая почему.</p></div>
+<figure class="narrow"><img src="img018.jpg" alt=""></figure>
+
+</section><section class="card"><h2>Как глубинные установки мешают прийти к цели?</h2>
+<p>Вы можете ставить цели, визуализировать желаемое, медитировать и заставлять себя больше работать, но при этом снова и снова возвращаться к одним и тем же результатам.</p>
+<p>Почему? Потому что <span class="hl">установка работает как фильтр:</span> одни возможности вы видите, а другие просто проходят мимо вас. Вы замечаете одни возможности, не видите другие и принимаете решения исходя из своих внутренних убеждений.</p>
+<div class="note"><div class="lbl">Пример</div><p>Например, вы хотите зарабатывать миллион, но внутри убеждены, что большие деньги небезопасны и могут разрушить вашу жизнь. Тогда вы можете сами не замечать, как отказываетесь от возможностей, боитесь действовать масштабнее или остаётесь в привычном сценарии.</p></div>
+
+<p><b>Цепочка выглядит так:</b></p>
+<div class="chain">
+<div>Установка</div><i>↓</i><div>что вы замечаете</div><i>↓</i><div>что вы делаете</div><i>↓</i><div>какой результат получаете</div>
+</div>
+
+<p>Когда установка меняется, вы начинаете видеть то, чего раньше не замечали. Например, вместо убеждения <span class="hl">«меня недостаточно»</span> появляется ощущение <span class="hl">«я охуенная»</span>. Вы начинаете иначе смотреть на себя и свою жизнь, замечать новые возможности, принимать другие решения и получать новые результаты.</p>
+
+<figure class="ph"><img src="img019.jpg" alt=""></figure>
+
+<h3>Но сложность в том, что свою установку вы обычно не видите</h3>
+<p>Вы можете годами пытаться больше зарабатывать, строить отношения или становиться увереннее, но не понимать, почему снова и снова приходите к одному и тому же результату.</p>
+<div class="plq"><p>Знаете, что больше всего забирает энергию? Не сама неудача, а то, что вы не понимаете её причину. И в какой-то момент начинаете думать, что проблема в вас, хотя проблема в одной установке, которую вы просто не видите.</p></div>
+<p>При этом недостаточно просто понять причину. Можно анализировать своё детство, обсуждать ситуации с психологом и осознавать свои реакции, но продолжать действовать по привычному сценарию.</p>
+<p><span class="hl">Важно не только понять, почему вы так поступаете, но и убрать саму установку,</span> чтобы вы начали поступать по-другому.</p>
+
+</section><section class="card dark"><h2>Почему недостаточно просто поставить цель, визуализировать деньги или начать больше действовать?</h2>
+<div class="note"><div class="lbl">Пример</div><p>Например, вы хотите больше зарабатывать. Вы ставите цели, делаете практики на деньги, но продолжаете бояться проявляться, повышать цены или использовать новые возможности.</p></div>
+<p>А иногда вы даже не понимаете, куда вам двигаться дальше. Вокруг могут быть тысячи возможностей, но вы их не замечаете, потому что в подсознании у вас стоит установка, что зарабатывать большие деньги небезопасно.</p><figure class="narrow"><img src="img020.jpg" alt=""></figure>
+<p>Из-за этого вы можете не замечать клиентов, которые готовы платить больше, не видеть новых направлений развития и продолжать действовать по одному и тому же сценарию.</p>
+<p>И кажется, что причина в рынке, в нехватке знаний или в том, что вы мало стараетесь. Но причина в глубинной установке, <span class="hl">которая незаметно влияет на решения и мешает пользоваться возможностями, которые уже есть.</span> Когда мы находим её и убираем, результаты начинают меняться гораздо быстрее, чем человек ожидал.</p>
+
+<div class="story"><div class="lbl">История ученицы</div><p>Вот, например, у меня была ученица Ксюша, которая три года работала за копейки и не могла вырасти в доходе, потому что думала, что на рынке кризис и у людей нет денег. Из-за этого она постоянно была в тревоге, вечно экономила, урезала себя в базовых потребностях и страдала от этого на протяжении трёх лет. И она думала, что решит эту проблему, если пройдёт ещё одно обучение и получит ещё одну специальность.</p>
+<p>Но мы начали внедрять метод активации и откопали глубинную установку, связанную с её системой семьи. Сама Ксюша думала, что у неё установка из разряда «не жили богато — нечего начинать». А на самом деле корень был другой: <span class="hl">«если я начну зарабатывать, родители перестанут меня любить»</span>.</p>
+<p>Не буду объяснять, как именно эта установка работала. Но как только мы её убрали, уже через три дня Ксюша начала работать с Кариной Нигай. Причём эту вакансию она нашла в том же чате, где искала всегда. Она уехала в путешествие, хотя очень давно не отдыхала.</p>
+<div class="plq"><p><b>А к завершению нашей работы, то есть за месяц и четыре созвона, Ксюша заработала 150 тысяч рублей, и ей предложили новую вакансию на 200 тысяч рублей плюс KPI.</b></p></div>
+<figure class="narrow"><img src="img021.jpg" alt=""></figure></div>
+<p>Ещё раз напомню, с каким запросом она пришла: на рынке кризис, нужны новые знания или пора уходить из сферы. Ей не понадобилось ни то, ни другое. Иногда не нужно годами менять внешние обстоятельства, искать новую профессию или получать очередные знания. Нужно найти установку, которая мешает видеть и использовать то, что уже есть.</p>
+
+<div class="story"><div class="lbl">История ученицы</div><p>Или вот у другой моей ученицы была установка: <span class="hl">«Моя ценность зависит от того, что скажут другие»</span>.</p>
+<p>Настя — фотограф, у неё уже была аудитория, но она не умела зарабатывать на блоге и зарабатывала достаточно мало. <b>Личное обучение у неё стоило до 30 тысяч рублей.</b> Ей казалось, что для высокого чека нужно больше опыта и одобрения.</p>
+<p>Она пробовала поставить 60 тысяч, и продать не получилось.</p>
+<p>Мы внедрили метод активации и нашли глубинную установку, из-за которой Настя не могла поднять чек и брать больше клиентов: она считала, что несёт ответственность за финансовые результаты каждого ученика. Если человек не получал результат, Настя считала себя плохим специалистом.</p>
+<p>Из-за этого она пыталась вытянуть каждого, выгорала, не могла брать больше клиентов в работу, к ней приходили ученики, которые ждали, что она всё сделает за них, и боялась ставить высокий чек.</p>
+<div class="plq"><p><b>Как только мы убрали её глубинную установку, её личная работа вместо 30 тысяч стала стоить 150. И уже через полторы недели Настя сделала четыре продажи по 150 тысяч рублей — 600 тысяч.</b></p></div>
+<figure class="pair"><img src="img015.jpg" alt=""><img src="img016.jpg" alt=""></figure></div>
+
+</section><section class="card"><h2>Почему метод активации работает быстрее?</h2>
+<p>Метод активации помогает найти причины, которые вы можете не замечать годами, и изменить отношение к себе, деньгам и возможностям. Вам не нужно больше работать, больше учиться или ждать, пока накопится опыт. <span class="hl">Когда меняется глубинная установка, меняется поведение. А когда меняется поведение, быстро меняются и внешние результаты.</span></p>
+
+<figure class="ph"><img src="img022.jpg" alt=""></figure>
+
+</section><section class="card dark"><h2>Как работает метод активации и почему мои клиенты получают быстрые результаты?</h2>
+<div class="plq"><p><b>Моя главная сила</b> — я помогаю выявить глубинную причину проблемы, которую человек сам часто не видит.</p></div>
+<div class="note"><div class="lbl">Пример</div><p>Например, вы можете думать, что у вас нет денег, времени, что вы боитесь проявляться или не можете построить отношения. Но это лишь поверхностные проявления. Мне важно понять, почему вы на самом деле действуете именно так и какая глубинная установка управляет вашими решениями.</p></div>
+<p>Я считываю, какая установка у человека стоит на самом деле, и не опираюсь только на то, что он сам о себе рассказывает. Благодаря этому мы можем быстрее перейти к сути запроса, не тратя месяцы на то, чтобы постепенно искать причину проблемы.</p>
+
+<p><b>Дальше работа с установкой идёт по шагам:</b></p>
+
+<h3><span class="n">1</span>Выявляем глубинную установку</h3>
+<p>Во время разговора я помогаю определить не просто то, что вам мешает, а глубинную причину, из-за которой вы снова и снова приходите к одному результату.</p>
+<div class="res2"><div class="lbl">Результат</div><p>В результате вы понимаете, что на самом деле мешает вам прийти к тому, чего вы хотите, а что было не главным.</p></div>
+<div class="note"><div class="lbl">Пример</div><p>Например, вы думаете, что, чтобы заработать больше денег, вам нужно изменить систему заработка или больше работать, а на самом деле ваша глубинная установка в подсознании — <span class="hl">«мне опасно больше зарабатывать»</span>.</p></div>
+
+<h3><span class="n">2</span>Показываю, как эта установка мешает вам в жизни</h3>
+<p>Я помогаю увидеть, где вы сливаете энергию, какие решения принимаете под влиянием этой установки и какие возможности упускаете.</p>
+<div class="note"><div class="lbl">Пример</div><p>Например, если для вас небезопасно зарабатывать миллион, это может проявляться не только в страхе повысить цены. Вы можете выбирать клиентов, которые не готовы платить больше, отказываться от выгодных предложений или не замечать возможностей для роста.</p></div>
+<div class="res2"><div class="lbl">Результат</div><p>После второго этапа вы уже начинаете видеть реальную картинку: где ваши слепые зоны, где вы подавляете себя, где утекает энергия, где не берёте денег, а должны.</p></div>
+
+<h3><span class="n">3</span>Убираем установку</h3>
+<p>Я не ограничиваюсь разговорами о проблеме, анализом прошлого или работой с мышлением. Для этого я использую энергетические практики и отвязки, после которых вы начинаете реагировать на привычные ситуации по-другому.</p>
+<p><b>В результате мы меняем негативную установку на позитивную:</b></p>
+<div class="plq">
+<p>«Я не могу брать большие деньги за свою работу» = «Я ставлю цену, которую считаю нужной».</p>
+<p>«Если я буду проявляться, меня будут осуждать» = «Моё проявление безопасно для меня».</p>
+</div>
+
+<h3><span class="n">4</span>Закрепляем в действиях</h3>
+<p>Для меня важно не просто выявить установку и поговорить о ней. Мы смотрим, как изменения проявляются в жизни, и я даю конкретные задания, которые помогают закреплять новый способ действовать.</p>
+<p>Если вы боитесь проявляться, мы не только убираем страх, но и сразу выводим вас в блог. Мне важно закрепить новую установку в действиях, а не только в голове, поэтому я даю практическое задание, которое поможет вам сделать шаг в вашем запросе и утвердить новый сценарий в жизни.</p>
+<div class="duo"><div>Боялись продавать дорого — продаём дорого)</div><div>Боялись проявляться — идём проявляться)</div></div>
+<figure><img src="img023.jpg" alt=""></figure>
+<p>И эти действия мы делаем уже из другого состояния и с изменёнными установками, поэтому даются они легко.</p>
+
+</section><section class="card"><h2>Почему я работаю только в длительном сопровождении?</h2>
+<p>Потому что одного осознания проблемы недостаточно. После того как человек обнаруживает глубинную установку, ему ещё предстоит проработать её и научиться действовать по-новому.</p>
+<p>На это требуется разное количество времени. В среднем на одну установку уходит <span class="hl">4–6 созвонов</span>.</p>
+<p>Я не беру на разовую консультацию, чтобы просто назвать человеку его проблему и оставить его разбираться с ней самостоятельно. Мне важно пройти весь процесс: найти установку, убрать её и закрепить изменения действиями.</p>
+<div class="note"><div class="lbl">Важно</div><p>При этом результат зависит и от включённости самого человека. Недостаточно просто прийти на созвоны — важно выполнять задания и применять изменения в жизни.</p></div>
+<div class="plq"><p><b>Моя задача — помочь вам увидеть то, чего вы раньше не замечали, убрать глубинную установку и прописать вместе с вами рабочую стратегию действий.</b></p></div>
+<p>А дальше мы смотрим, как это отражается на вашей реальности и приближает вас к желаемому результату.</p>
+<p>Дальше кейсы учениц: на них видно, как работа с глубинными установками отражалась на их деньгах, реализации и отношениях. И обратите внимание: не все они эксперты, обе Ксюши, например, работают в найме.</p>
+
+</section></div><div class="poster" style="background-image:url(img024.jpg)"><div class="lab">ЧАСТЬ 2<br>ТОЧКА А → ТОЧКА Б<div class="bar"></div></div><div class="vw">КЕЙСЫ</div></div><div class="w"><section class="card dark"><h2>Кейсы: точка А → точка Б</h2>
+
+<h3>Ксюша. Доход с 22 тысяч до 200 тысяч, работа с крупными блогерами</h3>
+<p><b>Точка А.</b> Ксюша пришла с проблемой, что не может найти работу. Три года она работала сценаристом и зарабатывала 22 тысячи. Её запрос был: на рынке кризис, нужны новые знания или пора уходить из сферы.</p>
+<p><b>Что мы делали.</b> Внедрили метод активации: пошли глубже запроса и нашли установку «если я начну зарабатывать, родители перестанут меня любить». Убрали её, и через три дня Ксюша начала работать с Кариной Нигай.</p>
+<div class="res"><p><b>Точка Б.</b> За 4 сессии доход стал 200 тысяч. Ксюша начала работать с крупными блогерами.</p></div>
+<figure class="pair"><img src="img013.jpg" alt=""><img src="img021.jpg" alt=""></figure><div class="vtitle">Рост ×10: из 22 тысяч в 200 тысяч</div><div class="vrect"><video src="v2.mp4" poster="img025.jpg" controls playsinline preload="metadata"></video><video src="v3.mp4" poster="img026.jpg" controls playsinline preload="metadata"></video></div>
+
+<h3>Ещё одна Ксюша. Купила квартиру, хотя три года не одобряли ипотеку</h3>
+<p><b>Точка А.</b> Ксюша всю жизнь хотела купить собственную квартиру, но ей три года не одобряли ипотеку. Она даже не понимала, как накопить на первоначальный взнос, хотя зарабатывала 100–150 тысяч рублей в месяц.</p>
+<p>В процессе работы мы нашли установку, что иметь собственное жильё и брать на себя обязательства по ипотеке небезопасно. То есть сознательно Ксюша хотела квартиру, но на уровне подсознания у неё стояла установка, которая противоречила её желанию.</p>
+<p><b>Что мы делали.</b> Внедрили метод активации: начали убирать эту установку и менять то, как она привыкла поступать. В процессе работы Ксюше попалась рассылка с программой, где первоначальный взнос составлял не миллион рублей, а всего 300 тысяч. Деньги на этот взнос у неё уже были. Мы начали подавать заявки на ипотеку, и человеку, которому три года отказывали, одобрили ипотеку сразу. Причём на выгодных льготных условиях, а не под 27–29%.</p>
+<div class="res"><p><b>Точка Б.</b> За месяц работы со мной Ксюша купила квартиру. Её слова: «купила квартиру, в ипотеку конечно, но зато плачу за свое собственное жилье, а не за съем)».</p></div>
+<p>А дальше она добавила: «кстати, наверное, благодаря тебе, я начала задумываться о том, чего же я конкретно хочу, для чего мне деньги. Раньше я сама не знала, был неуверенный ответ. Сейчас я знаю чего хочу и подробно формулирую свои желания вселенной».</p>
+<figure class="narrow"><img src="img014.jpg" alt=""></figure>
+
+<h3>Настя, фотограф. Чек с 30 до 150 тысяч и 600 тысяч за полторы недели</h3>
+<figure class="narrow"><img src="img027.jpg" alt=""></figure>
+<p><b>Точка А.</b> У Насти уже была аудитория, но она не умела зарабатывать на блоге. Личное обучение стоило до 30 тысяч, на 60 продать не получилось. Она выгорала, пытаясь вытянуть каждого ученика, и боялась ставить высокий чек.</p>
+<p><b>Что мы делали.</b> Внедрили метод активации: нашли установку «моя ценность зависит от того, что скажут другие». Показали, как этот сценарий проявляется в её реальности: где она не берёт деньги, хотя должна, где сливает энергию и удерживает себя маленькой. Заменили её на «я ставлю цену, которую считаю нужной» и закрепили в действии: практическое задание на продажи по новой цене. Из нового состояния это давалось легко.</p>
+<div class="res"><p><b>Точка Б.</b> Личная работа поднялась с 30 до 150 тысяч рублей. Уже через полторы недели Настя сделала четыре продажи по 150 тысяч рублей — 600 тысяч. И сделала успешный запуск.</p></div>
+<figure class="narrow stack"><img src="img015.jpg" alt=""><img src="img016.jpg" alt=""></figure>
+
+<h3>Ася. От рилсов, которые не залетали, к 102 тысячам охвата</h3>
+<p><b>Точка А.</b> Ася хотела вести блог, но не вела, а рилсы, которые она выкладывала, не залетали: контент не набирал охватов, работа не давала результата.</p>
+<p><b>Что мы делали.</b> Внедрили метод активации: убрали глубинную установку, которая удерживала её в старом сценарии и не позволяла проявляться, и закрепили новое поведение практическими заданиями. Из нового состояния ей удалось начать вести блог и делать рилсы так, что они стали залетать.</p>
+<div class="res"><p><b>Точка Б.</b> Ася начала вести блог, рилсы залетают — на скриншотах 102 тысячи и 28,5 тысячи охвата. И она получила повышение в работе, а бонусом еще улучшения в своих отношениях.</p></div>
+<figure class="pair"><img src="img028.jpg" alt=""><img src="img029.jpg" alt=""></figure>
+<figure class="pair"><img src="img030.jpg" alt=""><img src="img031.jpg" alt=""></figure>
+
+<h3>Алиса. С нулевого дохода до продюсера крупных блогеров и запусков на 600 тысяч</h3>
+<figure class="narrow"><img src="img032.jpg" alt=""></figure>
+<p><b>Точка А.</b> У Алисы был доход 0. Она не работала с крупными проектами и не понимала, как выйти на этот уровень.</p>
+<p><b>Что мы делали.</b> Внедрили метод активации: нашли и убрали установку, которая не давала ей проявляться и брать деньги за свою работу, а затем закрепили новый сценарий действиями. Алиса начала работать продюсером блогеров крупных проектов и делать запуски.</p>
+<div class="res"><p><b>Точка Б.</b> Алиса стала продюсером блогеров крупных проектов. Сделала запуски на 600 тысяч рублей.</p></div>
+<figure class="pair"><img src="img033.jpg" alt=""><img src="img034.jpg" alt=""></figure><div class="voice" data-src="a1.mp3"><button class="vp" type="button" aria-label="Слушать голосовое"></button><div class="vb"><div class="vn">Алиса</div><div class="vw"><i style="height:61%"></i><i style="height:89%"></i><i style="height:100%"></i><i style="height:66%"></i><i style="height:72%"></i><i style="height:67%"></i><i style="height:71%"></i><i style="height:63%"></i><i style="height:52%"></i><i style="height:54%"></i><i style="height:51%"></i><i style="height:62%"></i><i style="height:60%"></i><i style="height:58%"></i><i style="height:53%"></i><i style="height:39%"></i><i style="height:51%"></i><i style="height:62%"></i><i style="height:49%"></i><i style="height:70%"></i><i style="height:51%"></i><i style="height:69%"></i><i style="height:38%"></i><i style="height:63%"></i><i style="height:44%"></i><i style="height:51%"></i><i style="height:58%"></i><i style="height:52%"></i><i style="height:68%"></i><i style="height:38%"></i><i style="height:58%"></i><i style="height:57%"></i><i style="height:41%"></i><i style="height:45%"></i><i style="height:29%"></i><i style="height:29%"></i><i style="height:48%"></i><i style="height:24%"></i><i style="height:37%"></i><i style="height:51%"></i><i style="height:32%"></i><i style="height:12%"></i></div><div class="vt">0:56</div></div></div>
+
+</section><section class="card"><h2>Как проходит наша работа: 4 этапа метода активации</h2>
+<p>И эти четыре этапа работают только вместе. Без энергии человек не дойдёт до проработки. Без проработки установки стратегия останется заметкой в телефоне. А без действий новая установка не закрепится, и через месяц вы вернётесь в старый сценарий.</p>
+
+<h3><span class="n">1</span>Делаем чекап и возвращаем энергию</h3>
+<div class="note"><div class="lbl">Пример</div><p>Например, у вас замкнутый круг: вечером пишете огромный список дел, утром просыпаетесь, ничего не делаете и вините себя. И так годами. Человек без энергии не сделает ни одного пункта. Сначала возвращаем баланс — потом планомерно двигаемся и получаем результат, а не пишем заметочки и не кормим себя иллюзией.</p></div>
+<p><span class="hl">На первом созвоне</span> я разбираю ваши старые решения: что у вас хорошо получается, что не получается и какие действия годами не вели вас к цели. Параллельно смотрим, что забирает у вас энергию — и в обычной жизни, и в энергетическом плане.</p>
+<p>Делаем отвязки от чувства вины, от партнёров, от друзей, от старых коллег и от ситуаций, где вы промолчали. Они снимают ощущение вины — и это даёт огромный буст. Потому что человек без сил не может даже нормально думать о целях.</p>
+<div class="res2"><div class="lbl">Результат</div><p>В результате вы возвращаете свою энергию и направляете её на деньги, реализацию и свои цели.</p></div>
+<div class="plq"><p>Я полноценно отвязалась от мужчин и вернула себе энергию. Впервые за полтора года я забыла бывшего и начала встречать достойных. Теперь, когда я выхожу на улицу, на меня всегда обращают внимание, хотя я всего лишь отвязалась с помощью техник отвязки.</p>
+<p><b>А после практики на чувство вины я подняла чек x3.</b></p></div>
+
+
+
+<h3><span class="n">2</span>Находим глубинные установки, которые вам мешают</h3>
+<div class="note"><div class="lbl">Пример</div><p>Вам кажется, что надо больше работать или пройти ещё одно обучение. Но навык у вас уже есть, и на нём уже можно зарабатывать. Деньги на обучение уходят, а результат не приходит, потому что «я ещё недостаточно хороша, когда-нибудь потом». Проблема в установке, а не в количестве усилий.</p></div>
+<p><span class="hl">На втором созвоне я считываю</span>, почему именно в вашей сфере не получается прийти к результату. У каждого это своё: стыд, желание быть хорошей девочкой, страх, что не примут.</p>
+<div class="res2"><div class="lbl">Результат</div><p>Мы прорабатываем эти установки, и вы начинаете понимать, какими конкретно действиями отдаляете себя от денег, отношений, медийности. В результате вы видите, как принимаете решения, и уже можете не возвращаться в старый круг. А новая установка начинает подтверждаться вокруг вас ещё до того, как вы что-то сделали.</p></div>
+
+<div class="story"><div class="lbl">Моя история</div><p><b>Помните, я обещала рассказать про свою установку?</b></p>
+<p>Когда-то я работала продюсером и запускала по три-четыре проекта в день, но всё делала руками: лид-магниты, сценарии, всё. Я хотела свой продюсерский центр, где за меня работают другие продюсеры, которых я обучила. На это нужны были деньги.</p>
+<p>Полгода я ходила по кругу. А потом поняла: у меня стоит установка, <span class="hl">что делегировать мне небезопасно, что я должна всё контролировать сама.</span> Пока я её не проработала — денег не было.</p>
+<p>Как только проработала — я взяла кредит и открыла продюсерский центр. <b>Выручка выросла x3.</b> До центра я зарабатывала миллион рублей, первые три месяца после открытия — чистыми два с половиной–три миллиона.</p></div>
+
+<h3><span class="n">3</span>Распаковываем сильные стороны и собираем новую стратегию</h3>
+<div class="note"><div class="lbl">Пример</div><p>Например, вы думаете: «Я недостаточно дисциплинированна». Нет, вам нужен ассистент. Скидываете ему задачи, занимаетесь тем, что приносит деньги, зарабатываете в десять раз больше.</p></div>
+<p>Я распаковываю ваши сильные качества, и мы вместе прописываем стратегию: какие шаги приближают вас к цели, какие мешают и как прийти к ней именно за счёт того, что у вас уже хорошо получается.</p>
+<div class="story"><div class="lbl">Моя история</div><p>Меня всю жизнь называли ленивой: я ничего не могу сделать сама, мне всё надо свесить на других. Я считала это своей слабой стороной и пыталась вылечить это дисциплиной — работать больше, упираться.</p>
+<p>Но это оказалась моя сильная сторона. <span class="hl">Я не «ленивая» — я умею управлять людьми и не умею делать мелкие задачи.</span> Стоило это принять — и вся моя работа изменилась: я открыла продюсерский центр, где работаю не я. Появился ассистент, который забрал ряд задач, я занялась только тем, что приносит деньги — и кратно выросла в деньгах.</p></div>
+
+<h3><span class="n">4</span>Закрепляем новую установку в действиях</h3>
+<div class="note"><div class="lbl">Пример</div><p>Все знают, как вести блог. Но пишут идеи для рилс и ждут идеального момента. Мы переводим это в действие и контролируем состояние — вместо того чтобы оттягивать на десять лет.</p></div>
+<p><span class="hl">Со второго-третьего созвона мы начинаем действовать.</span> Кто не выкладывал Reels, начинает выкладывать. Кто боялся повышать чек, повышает.</p>
+<p>В отличие от обычной проработки в психологии, мы не останавливаемся на самой установке, а сразу закрепляем её на практике по шагам, которые прописали вместе. В результате по новой стратегии вы видите новые результаты: ролики начинают залетать, приходят деньги, в жизни появляются другие люди и отношения.</p>
+<div class="plq"><p><b>Я всю жизнь мечтала вести блог, и что-то меня каждый раз останавливало. Я нашла у себя установку: выходить в Instagram мне в принципе небезопасно — у меня недоверие к людям в жизни, и к подписчикам тоже.</b></p>
+<p>Поменяла установку — и сразу начала выкладывать рилсы. <b>Пятый рилс набрал 300 тысяч охвата и принёс мне три тысячи подписчиков.</b></p></div>
+<figure class="ph"><img src="img035.jpg" alt=""></figure>
+<div class="plq"><p>Поэтому большинство и топчется на месте годами: они чинят по одному кусочку. Идут на очередное обучение, делают практики на деньги, ходят к психологу, заставляют себя дисциплиной, а установка остаётся на месте и снова возвращает их к тому же результату.</p></div>
+<figure><img src="img036.jpg" alt=""></figure>
+
+</section><section class="card dark"><h2>Что у вас будет после внедрения метода активации?</h2>
+<div class="lst">
+<div>Энергия, которую вы направляете на свои цели, а не на чувство вины и старые ситуации</div>
+<div>Понимание, какие решения годами держали вас в замкнутом круге</div>
+<div>Проработанные глубинные установки, которые мешали прийти к цели в деньгах, блоге и отношениях</div>
+<div>Стратегия на основе ваших сильных сторон и конкретные шаги, которые вы уже делаете</div>
+</div>
+<div class="plq"><p><b>И главное</b> — первые результаты уже в ближайшие недели, потому что вы сразу идёте в действие, а не годами прорабатываете прошлое.</p></div>
+
+</section><section class="card"><h2>Почему метод активации работает быстрее, чем работа с обычным психологом?</h2>
+<p>Метод активации принципиально отличается от работы обычного психолога — скоростью, глубиной и тем, что каждый разбор сразу подкрепляется действием.</p>
+<div class="lst">
+<div>Я считываю установки. Психологу нужно время, чтобы человек ему доверился, и на поиск одной установки уходит два-три месяца. Я установки считываю, и работа идёт намного быстрее.</div>
+<div>Каждый разбор подкрепляется действиями и практиками, потому что так меняются бессознательные установки.</div>
+<div>Мы не ждём, пока вы начнёте действовать. Мы меняем установку и закрепляем её в действиях.</div>
+<div>Я работаю лично с вами, а не даю готовые уроки, потому что установка у каждого своя.</div>
+</div>
+
+</section><section class="card dark"><h2>Как внедрить метод активации?</h2>
+<p><span class="hl">Пока установка стоит на месте, она продолжает решать за вас каждый месяц:</span> вы снова ставите прежнюю цену, снова откладываете рилс, снова выбираете знакомый сценарий в отношениях. Ксюша так провела три года, работая за копейки. Я полтора года не могла забыть бывшего. И это время уже никто не вернёт.</p>
+<p><b>Чтобы зарабатывать больше, расти в аудитории и строить здоровые отношения, не нужно:</b></p>
+<div class="no">
+<div><i>✕</i><span>годами разбирать детство</span></div>
+<div><i>✕</i><span>проходить ещё одно обучение</span></div>
+<div><i>✕</i><span>заставлять себя работать через силу</span></div>
+</div>
+<p><b>Можно найти установку, которая держит вас на месте, и закрепить новую в действиях:</b></p>
+<div class="yes">
+<div><i>✓</i><span>поднять чек и продавать без страха, что не купят</span></div>
+<div><i>✓</i><span>начать выкладывать рилсы и расти в аудитории</span></div>
+<div><i>✓</i><span>выбирать людей и отношения, в которых вам хорошо</span></div>
+<div><i>✓</i><span>направлять энергию на свои цели, а не на чувство вины</span></div>
+</div>
+<p>Если хотите внедрить метод активации, чтобы в 20–50 раз вырасти в доходе, начать расти в аудитории, продавать за высокий чек и в целом быстрее достигать своих целей, а не стоять годами на месте, жмите на кнопку</p>
+<a class="cta" href="https://t.me/zzzzzlata15?text=%D0%A1%D0%9E%D0%9F%D0%A0%D0%9E%D0%92%D0%9E%D0%96%D0%94%D0%95%D0%9D%D0%98%D0%95">СОПРОВОЖДЕНИЕ</a>
+
+</section></div></div>
+<script>
+function fit(){document.querySelectorAll('.poster .vw').forEach(e=>{e.style.fontSize='150px';const H=e.parentElement.offsetHeight*0.72;e.style.fontSize=(150*H/e.scrollWidth)+'px';});document.body.dataset.ok=1}
+(document.fonts?document.fonts.ready:Promise.resolve()).then(fit);window.addEventListener('resize',fit);
+</script><script>document.querySelectorAll('.vc').forEach(function(c){var v=c.querySelector('video'),b=c.querySelector('.pl');
+b.addEventListener('click',function(){document.querySelectorAll('.vc video').forEach(function(o){if(o!==v&&!o.paused)o.pause()});if(v.paused)v.play();else v.pause();});
+v.addEventListener('play',function(){c.classList.add('on')});v.addEventListener('pause',function(){c.classList.remove('on')});v.addEventListener('ended',function(){c.classList.remove('on');v.currentTime=0})});</script><script>document.querySelectorAll('.voice').forEach(function(c){var a=new Audio(c.dataset.src),bs=c.querySelectorAll('.vw i'),t=c.querySelector('.vt'),T=t.textContent;a.preload='metadata';
+function f(x){x=Math.floor(x);return Math.floor(x/60)+':'+String(x%60).padStart(2,'0')}
+c.querySelector('.vp').addEventListener('click',function(){document.querySelectorAll('video').forEach(function(o){o.pause()});if(a.paused)a.play();else a.pause()});
+a.addEventListener('play',function(){c.classList.add('on')});a.addEventListener('pause',function(){c.classList.remove('on')});
+a.addEventListener('timeupdate',function(){var k=Math.round((a.duration?a.currentTime/a.duration:0)*bs.length);bs.forEach(function(b,i){b.classList.toggle('p',i<k)});t.textContent=f(a.currentTime)+' / '+T});
+a.addEventListener('ended',function(){c.classList.remove('on');t.textContent=T;bs.forEach(function(b){b.classList.remove('p')})})});</script><div id="prog"></div><script>(function(){var b=document.getElementById('prog');function u(){var h=document.documentElement,m=h.scrollHeight-h.clientHeight,t=window.scrollY||h.scrollTop;b.style.width=(m>0?Math.min(100,t/m*100):0)+'%'}addEventListener('scroll',u,{passive:true});addEventListener('resize',u);u()})();</script></body></html>
+</body></html>
+</body></html>
